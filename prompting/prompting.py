@@ -7,18 +7,31 @@ import inspect
 
 
 def prompt(func):
-    """Wrap a Python function into a Jinja2-templated prompt.
-       :param func: The function to wrap.
-       :return: The wrapped function.
-    """
+    """Wraps a Python function into a Jinja2-templated prompt.
+
+    This decorator allows rendering the function's docstring using
+    Jinja2 templates, while ensuring all variables referenced in the
+    docstring are passed as arguments to the function.
+
+    Args:
+        func: The function to wrap.
+
+    Returns:
+        The wrapped function.
+
+    Raises:
+        ValueError: If a variable in the docstring is not passed into the function.
+  """
     @wraps(func)
     def wrapper(*args, **kwargs):
-        """Wrapper function.
-           :param args: Positional arguments to the function.
-           :param kwargs: Keyword arguments to the function.
-           :return: The Jinja2-templated docstring.
-           :raises ValueError: If a variable in the docstring
-               is not passed into the function.
+        """Wrapper function that renders the Jinja2-templated docstring.
+
+           Args:
+                *args: Positional arguments to the function.
+                **kwargs: Keyword arguments to the function.
+
+            Returns:
+                The rendered Jinja2 template containing the docstring.
         """
         # get the function's docstring.
         docstring = func.__doc__
